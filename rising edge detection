@@ -1,0 +1,21 @@
+// this module is used to detect the rising edge of an input vector. a procedural block dependant on the rising edge of the clock is used to delay the output of the detection by one cycle.
+
+
+module top_module (
+    input clk,
+    input [7:0] in,
+    output [7:0] pedge
+);
+
+    // a register is made to hold the value of the input value at the previous clock cycle
+    reg [7:0] prev;
+
+    always @(posedge clk) begin
+        // the output vector will detect if the input in[] vector is set to high where the previous input in[] value is set to low (detecting the change of input in[] from 0 to 1) 
+        pedge <= in & ~prev;
+
+        // set the prev[] vector to the current in[] vector to be used for comparison on the next clock cycle
+        prev <= in;
+    end
+
+endmodule
